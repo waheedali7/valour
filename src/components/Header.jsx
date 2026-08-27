@@ -70,7 +70,7 @@ const Header = () => {
             <img src="/images/logo.png" alt="" />
           </Link>
           <div className="side-box">
-            <a href="#" className='theme-btn'>English</a>
+            <a href="#" className='theme-btn eng'>English</a>
             <p onClick={() => dispatch(toggleCartSidebar(true))}><IoBagHandleOutline /></p>
           </div>
         </div>

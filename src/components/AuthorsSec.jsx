@@ -128,7 +128,6 @@ const AuthorsSec = () => {
               img2Ref.current.style.transform = 'scale(1) rotateY(0deg) rotateX(0deg) translateZ(0)'
               img2Ref.current.style.filter = 'blur(0px) brightness(1)'
             }, 350)
-
           }
 
           observer.unobserve(section)
@@ -150,16 +149,16 @@ const AuthorsSec = () => {
         <section className='authors-sec' ref={sectionRef}>
             <div className="container">
                 <div className="row">
-                    <div className="col-md-3">
-                        <img ref={img1Ref} src="/images/authors.webp" alt="" className='img-fluid' />
+                    <div className="col-md-6 col-lg-3 order-md-1 order-lg-1">
+                        <img ref={img1Ref} src="/images/authors.webp" alt="Authors" className='authors img-fluid' />
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-12 col-lg-6 order-md-3 order-lg-2">
                         <h5 className="authors-sub">The Founders</h5>
                         <h1 className='authors-hd'>TWO LIFELONG ENTHUSIASTS<br></br> ONE SHARED PASSION.</h1>
                         <p ref={para1Ref}>We're Albert Lai and Jayson De Castro, two lifelong watch enthusiasts turned creators. Albert is a physician and entrepreneur. With a deep passion for design and engineering precision, Jayson is a designer and watch reviewer who has spent years studying the details that make a timepiece truly memorable.</p>
                         <p ref={para2Ref}>Together, we've co-founded Valour Watches to bring high-concept, beautifully constructed mechanical watches to life at a price that doesn't compromise on vision or quality.</p>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-6 col-lg-3 order-md-2 order-lg-3">
                         <img ref={img2Ref} src="/images/founder-img.webp" alt="" className='img-fluid author-img' />
                     </div>
                 </div>

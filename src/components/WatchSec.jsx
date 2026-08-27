@@ -179,7 +179,7 @@ const WatchSec = () => {
             <div className="watch-overlay"></div>
             <div className="container">
                 <div className="row align-items-center">
-                    <div className="col-lg-6">
+                    <div className="col-12 col-md-6 col-lg-6">
                         <div className="watch-img-wrap">
                             <div className="watch-glow"></div>
                             <div className="watch-parallax">
@@ -193,11 +193,11 @@ const WatchSec = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-6 text-col">
+                    <div className="col-12 col-md-6 col-lg-6 text-col">
                         <div className="watch-text">
                             <span>NEW GENERATION</span>
                             <h2>
-                                Vibrant Colors Inspired<br/>
+                                Vibrant Colors Inspired
                                 By Light And Nature
                             </h2>
                             <p>

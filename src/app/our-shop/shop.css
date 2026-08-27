@@ -73,7 +73,7 @@ body {
 }
 
 .ht-header h1 {
- font-family: 'Playfair Display', serif;
+    font-family: 'Playfair Display', serif;
     font-weight: 500;
     font-size: 46px;
     color: #f5f5f5;
@@ -112,19 +112,19 @@ body {
 }
 
 .filter-toggle {
-        align-items: center;
+    align-items: center;
     background: #000;
     border: 1px solid #373737;
     border-radius: 12px;
-overflow: hidden;
+    overflow: hidden;
     display: flex;
     padding: 0 0 0 14px;
     transition: opacity .3s ease;
     cursor: pointer;
 }
 
-.filter-toggle p{
-        font-size: 11px;
+.filter-toggle p {
+    font-size: 11px;
     margin: 0;
 }
 
@@ -445,34 +445,45 @@ overflow: hidden;
 .ht-grid {
     display: grid;
     gap: 2rem;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(4, 1fr)
 }
 
 .ht-card:nth-child(5) {
-  grid-column: 2;
+    grid-column: 2;
 }
 
 .ht-card:nth-child(6) {
-  grid-column: 3;
+    grid-column: 3;
 }
 
-@media (min-width: 576px) {
-    .ht-grid:not(.ht-list-view) {
+@media (max-width: 575px) {
+    .ht-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+@media (min-width: 576px) and (max-width: 991px) {
+    .ht-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (min-width: 992px) {
-    .ht-grid:not(.ht-list-view) {
+@media (min-width: 992px) and (max-width: 1199px) {
+    .ht-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media (min-width: 1400px) {
-    .ht-grid:not(.ht-list-view) {
-        grid-template-columns: repeat(4, 1fr);
+@media (max-width: 1199px) {
+    .ht-card:nth-child(5) {
+        grid-column: auto
+    }
+
+    .ht-card:nth-child(6) {
+        grid-column: auto
     }
 }
+
 
 .ht-card {
     position: relative;
@@ -588,22 +599,27 @@ overflow: hidden;
     transform: scale(1.08);
     filter: brightness(1.15) drop-shadow(0 20px 40px #facc1580);
 }
+
 .ht-card.red:hover .ht-card-img {
     transform: scale(1.08);
     filter: brightness(1.15) drop-shadow(0 20px 40px #ef444481);
 }
+
 .ht-card.silver:hover .ht-card-img {
     transform: scale(1.08);
     filter: brightness(1.15) drop-shadow(0 20px 40px #d1d5db88);
 }
+
 .ht-card.black:hover .ht-card-img {
     transform: scale(1.08);
     filter: brightness(1.15) drop-shadow(0 20px 40px #d1d5db8a);
 }
+
 .ht-card.mint:hover .ht-card-img {
     transform: scale(1.08);
     filter: brightness(1.15) drop-shadow(0 20px 40px #10b98185);
 }
+
 .ht-card.blue:hover .ht-card-img {
     transform: scale(1.08);
     filter: brightness(1.15) drop-shadow(0 20px 40px #3b83f686);
@@ -791,22 +807,8 @@ overflow: hidden;
     color: #4b5563;
 }
 
-
-
-@media (max-width: 1199px) {
-        .ht-card-img {
-          width: 70%;
-    }
-
-    .ht-card-name {
-      font-size: 25px;
-    }
-}
-
-
-
 .strap-sec h4 {
-      font-family: 'Playfair Display', serif;
+    font-family: 'Playfair Display', serif;
     font-weight: 500;
     font-size: 45px;
     color: #f5f5f5;
@@ -816,4 +818,29 @@ overflow: hidden;
 
 .strap-sec .ht-card-img {
     width: 67%;
+}
+
+
+
+@media (max-width: 1199px) {
+    .ht-card-img {
+        width: 70%;
+    }
+
+    .ht-card-name {
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .ht-section {
+        padding: 70px 0 40px;
+    }
+
+}
+
+@media (max-width: 575px) {
+    .ht-header h1 {
+    font-size: 35px;
+    }
 }

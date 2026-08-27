@@ -134,21 +134,25 @@ const ProductSec = () => {
             }}
             pagination={{ clickable: true }}
             breakpoints={{
-              640: {
+              575: {
                 slidesPerView: 1,
                 spaceBetween: 10,
               },
               768: {
-                slidesPerView: 3,
+                slidesPerView: 2,
                 spaceBetween: 10,
+              },
+              991: {
+                slidesPerView: 2,
+                spaceBetween: 15,  // below 991 = 20
               },
               1024: {
                 slidesPerView: 3,
-                spaceBetween: 15,  // below 1400 = 20
+                spaceBetween: 15,  // below 1024 = 20
               },
               1200: {
                 slidesPerView: 4,
-                spaceBetween: 20,  // below 1400 = 20
+                spaceBetween: 20,  // below 1200 = 20
               },
               1400: {
                 slidesPerView: 4,

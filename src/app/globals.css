@@ -249,7 +249,7 @@ nav .side-box svg:hover {
   background-color: #000;
 }
 
-.straps{
+.straps {
   height: auto;
 }
 
@@ -257,9 +257,9 @@ nav .side-box svg:hover {
   text-decoration: none;
 }
 
-.product-sec .pro-card.mg img {
+/* .product-sec .pro-card.mg img {
   margin-bottom: 40px;
-}
+} */
 
 .swiper-pagination {
   text-align: center;
@@ -305,7 +305,7 @@ nav .side-box svg:hover {
   margin: 51px 0 0;
 }
 
-.product-sec .pro-card {
+/* .product-sec .pro-card {
   border: 1px solid gray;
   border-radius: 20px;
   margin: 50px 15px 15px;
@@ -316,9 +316,9 @@ nav .side-box svg:hover {
   background-color: #000000c9;
   overflow: hidden;
   transition: all 0.5s ease-in-out;
-}
+} */
 
-.product-sec .pro-card img {
+/* .product-sec .pro-card img {
   width: 65%;
   margin-bottom: 30px;
 }
@@ -362,9 +362,9 @@ nav .side-box svg:hover {
 .product-sec .pro-card:hover svg {
   color: var(--bg-black);
   background-color: var(--bg-white)
-}
+} */
 
-.pro-card .card-shine {
+/* .pro-card .card-shine {
   position: absolute;
   inset: 0;
   background: linear-gradient(115deg,
@@ -375,7 +375,7 @@ nav .side-box svg:hover {
   pointer-events: none;
   z-index: 2;
   mix-blend-mode: soft-light;
-}
+} */
 
 /* ////////////////Product End/////////// */
 
@@ -546,37 +546,7 @@ TEXT
   font-weight: 300;
 }
 
-/* =========================
-RESPONSIVE
-========================= */
 
-@media(max-width:991px) {
-
-  .watch-sec {
-    padding: 100px 0;
-    min-height: auto;
-  }
-
-  .watch-sec .row {
-    min-height: auto;
-  }
-
-  .watch-img {
-    width: 100%;
-    max-width: 500px;
-    margin-bottom: 50px;
-  }
-
-  .watch-text {
-    text-align: center;
-    margin: auto;
-  }
-
-  .watch-text h2 {
-    font-size: 48px;
-  }
-
-}
 
 /* ////////////////Watch End/////////// */
 
@@ -961,6 +931,10 @@ header {
   transition: background 0.5s ease, backdrop-filter 0.5s ease;
 }
 
+.theme-btn.eng {
+  flex-shrink: 0;
+}
+
 .navbar-brand {
   margin: 0;
 }
@@ -1111,35 +1085,6 @@ header.sidebar-opened .burger-btn span:nth-child(2) {
   header .menu .label {
     display: none
   }
-}
-
-@media only screen and (max-width: 991px) {
-  header {
-    height: 66px;
-    padding: 34px 0
-  }
-
-  header .menu .burger-btn {
-    font-size: 1.125rem;
-    margin-left: 0;
-    margin-top: -2px;
-    padding: 0
-  }
-
-  header.sidebar-opened .menu .burger-btn {
-    height: 19px
-  }
-
-  header.sidebar-opened .menu .burger-btn span {
-    height: 2px;
-    width: 24px
-  }
-
-
-  header .label {
-    display: none
-  }
-
 }
 
 .sidebar-menu {
@@ -1377,7 +1322,7 @@ header.header-scrolled {
 
 .theme-btn {
   display: inline-block;
-  border: 1px solid #000;
+  border: 1px solid #fff;
   border-radius: 5px;
   color: #000;
   text-decoration: none;
@@ -1386,20 +1331,21 @@ header.header-scrolled {
   overflow: hidden;
   transition: color 0.4s;
   background-color: #fff;
+  transform: translate(0px, 0px);
 }
 
 .theme-btn::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: #dbdbdb;
+  background: #414141;
   transform: translateX(-101%);
   transition: transform 0.45s cubic-bezier(0.77, 0, 0.18, 1);
   z-index: -1;
 }
 
 .theme-btn:hover {
-  color: #000 !important;
+  color: #fff !important;
 }
 
 .theme-btn:hover::before {
@@ -1735,6 +1681,15 @@ header.header-scrolled {
   .is-slat {
     transition-duration: 0.7s;
   }
+
+  .theme-btn.eng {
+    display: none;
+  }
+
+  header .search-icon {
+    display: none;
+  }
+
 }
 
 
@@ -2256,7 +2211,7 @@ body {
   /* scroll-snap-align: start; */
   /* width: 100%; */
   /* position: relative; */
-   min-height: 100vh;
+  min-height: 100vh;
 }
 
 ::-webkit-scrollbar {
@@ -2852,26 +2807,30 @@ body {
     padding: 13px 17px;
   }
 
+    .about-hd {
+        margin-bottom: 20px;
+        font-size: 50px;
+    }
+
+    .authors-hd {
+        margin-bottom: 20px;
+        font-size: 50px;
+    }
+
+    .belief-hd {
+        font-size: 65px;
+        margin-bottom: 20px;
+    }
+
 }
 
 /* ── Container max width override for XL screens ── */
 @media (min-width: 1400px) {
-  /* .container {
-    max-width: 1641px;
-  } */
-
-  /* .product-sec .container {
-        max-width: 1321px;
-    } */
-
   .authors-sec .container {
     max-width: 1871px;
   }
 }
 
-/* ============================================================
-   1400px — Large desktops
-   ============================================================ */
 @media (max-width: 1399px) {
 
   .sidebar-menu {
@@ -2960,19 +2919,43 @@ body {
     align-items: center;
   }
 
-
+  /* 
   .product-sec .pro-card .details h5 {
     font-size: 20px;
-  }
+  } */
 
   .product-sec h2 {
     font-size: 45px;
   }
+
+      .about-hd {
+        margin-bottom: 20px;
+        font-size: 40px;
+    }
+
+    .authors-hd {
+        margin-bottom: 20px;
+        font-size: 33px;
+    }
+
+    .belief-hd {
+        font-size: 55px;
+        margin-bottom: 20px;
+    }
+
+    .authors-sec p {
+        font-size: 16px;
+    }
+
+    .about-sec p {
+        font-size: 16px;
+    }
+
+    .belief-sec p {
+        font-size: 16px;
+    }
 }
 
-/* ============================================================
-   1200px — Regular desktops
-   ============================================================ */
 @media (max-width: 1199px) {
 
   /* --- Header --- */
@@ -3089,33 +3072,34 @@ body {
     font-size: 15px;
   }
 
-  /* .footer {
-    padding-top: 10%;
-  } */
-
-  /* .mid-footer .border-row.two {
-    padding: 3% 0;
-  } */
-
   .cta-sec .input-box button {
     font-size: 15px;
     padding: 7px 10px;
   }
 
-  /* footer {
-    padding: 2% 0 25px 0;
-  } */
-
   .cta-sec .input-box {
     width: 100%;
     padding-right: 2px;
   }
+
+      .about-sec {
+        padding: 17% 0 4%;
+    }
+
+    .about-sec .abt-img {
+        position: absolute;
+        bottom: 0;
+        right: 29px;
+    }
 }
 
-/* ============================================================
-   992px — Tablets landscape / small desktops
-   ============================================================ */
-@media (max-width: 992px) {
+@media (max-width: 1024px) {
+  .sidebar-menu {
+    padding: 5rem 20px 20px 3.5rem;
+  }
+}
+
+@media (max-width: 991px) {
 
   /* --- Global --- */
   .hero-canvas-sec,
@@ -3131,10 +3115,10 @@ body {
   }
 
   /* --- Header --- */
-  header {
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+
+
+  header .label {
+    display: none
   }
 
   .navbar-toggler {
@@ -3175,11 +3159,57 @@ body {
     align-items: center;
   }
 
+  header .menu .burger-btn {
+    font-size: 1.125rem;
+    margin-left: 0;
+    margin-top: -2px;
+    padding: 0
+  }
+
+  header.sidebar-opened .menu .burger-btn {
+    height: 19px
+  }
+
+  header.sidebar-opened .menu .burger-btn span {
+    height: 2px;
+    width: 24px
+  }
+
+  .navbar>.container {
+    position: relative;
+    flex-wrap: wrap;
+  }
+
+  .navbar-toggler {
+    order: 3;
+  }
+
   .navbar-brand {
-    margin: 0 auto 0 0;
+    width: 60%;
+    order: 2;
+    margin: 0 auto;
+  }
+
+  .navbar-brand img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  .side-box {
+    order: 4;
+    margin-left: auto;
+  }
+
+  .navbar-collapse {
+    order: 5;
+    width: 100%;
   }
 
   /* --- Hero --- */
+  .hero-canvas-sec {
+    height: 100vh !important;
+  }
+
   .animated-text {
     font-size: 70px;
   }
@@ -3187,6 +3217,15 @@ body {
   .hero-sec h1 {
     font-size: 70px;
     letter-spacing: 30px;
+  }
+
+  .hero-video-bg {
+    width: auto;
+  }
+
+  .hero-canvas {
+    width: 80%;
+    margin: 0 auto;
   }
 
   /* --- Know Section --- */
@@ -3218,24 +3257,23 @@ body {
     margin: 30px 0 0;
   }
 
-  .product-sec .pro-card {
-    margin: 30px 10px 10px;
-    padding: 50px 25px 25px;
+
+  .watch-sec {
+    padding: 100px 0 50px;
+  }
+
+  .watch-sec .row {
+    min-height: auto;
   }
 
   .watch-text {
-    padding-bottom: 0;
-    text-align: center;
-    align-items: center;
-    padding-top: 40px;
+    padding: 0;
+    justify-content: center;
   }
 
-  .watch-img-wrap {
-    margin-bottom: 30px;
-  }
-
-  .watch-text h2 {
-    font-size: 40px;
+  .watch-img {
+    width: 100%;
+    margin-bottom: 0;
   }
 
   /* --- Testimonials --- */
@@ -3305,24 +3343,26 @@ body {
     text-align: center;
   }
 
-  /* --- Slider Image --- */
-  .slider-image {
-    height: 60vh;
-  }
-
-  .before-after-slider img {
-    height: 60vh;
-  }
-
   /* --- Creative Video --- */
   .creative-sec {
     min-height: 100vh;
   }
+
+      .about-hd {
+        font-size: 30px;
+    }
+
+    .authors-sec .author-img {
+        top: 10%;
+        bottom: auto;
+        width: 35%;
+    }
+
+    .authors-sec .row {
+        row-gap: 30px;
+    }
 }
 
-/* ============================================================
-   768px — Tablets portrait
-   ============================================================ */
 @media (max-width: 768px) {
 
   /* --- Hero --- */
@@ -3353,31 +3393,32 @@ body {
     font-size: 32px;
   }
 
-  .product-sec .pro-card {
+  /* .product-sec .pro-card {
     margin: 20px 5px 5px;
     padding: 40px 20px 20px;
-  }
+  } */
 
-  .product-sec .pro-card img {
+  /* .product-sec .pro-card img {
     width: 75%;
   }
 
   .product-sec .pro-card .details h5 {
     font-size: 18px;
-  }
+  } */
 
   /* --- Watch Section --- */
   .watch-sec {
     padding: 70px 0;
-    min-height: auto;
   }
 
   .watch-text h2 {
     font-size: 36px;
+    text-align: center;
   }
 
   .watch-text p {
     font-size: 14px;
+    text-align: center;
   }
 
   .watch-text span {
@@ -3385,12 +3426,34 @@ body {
     letter-spacing: 2px;
   }
 
+  .watch-img {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+  }
+
   .watch-glow {
     width: 280px;
     height: 280px;
   }
 
+  .watch-text {
+    align-items: center;
+  }
+
   /* --- Testimonials --- */
+  .testi-sec {
+    padding: 80px 0;
+  }
+
+  .testi-sec .row {
+    row-gap: 20px;
+  }
+
+  .testi-sec .side.side-2 {
+    padding: 0;
+  }
+
   .testi-sec h2 {
     font-size: 34px;
   }
@@ -3432,15 +3495,6 @@ body {
     gap: 10px;
   }
 
-  /* --- Slider Image --- */
-  .slider-image {
-    height: 50vh;
-  }
-
-  .before-after-slider img {
-    height: 50vh;
-  }
-
   /* --- Img Section panels --- */
   .is-text {
     left: 7%;
@@ -3454,23 +3508,80 @@ body {
   .is-slat {
     transition-duration: 0.7s;
   }
+
+  .cta-sec .input-box {
+    margin-top: 20px;
+  }
+
+  .mid-footer .row {
+    row-gap: 20px;
+  }
+
+  .mid-footer ul {
+    margin: 0;
+  }
+
+      .about-sec .row {
+        row-gap: 20px;
+    }
+
+    .about-sub {
+        display: block;
+        text-align: center;
+    }
+
+    .about-hd {
+        text-align: center;
+    }
+
+    .about-sec p {
+        text-align: center;
+    }
+
+    .authors-sec .author-img {
+        display: none;
+    }
+
+    .authors-sub {
+        display: block;
+        text-align: center;
+    }
+
+    .authors-hd {
+        text-align: center;
+    }
+
+    .authors-sec p {
+        text-align: center;
+    }
+
+    .about-sec .abt-img {
+        position: static;
+        width: 80%;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .authors-sec .authors {
+        width: 60%;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .belief-hd {
+        font-size: 37px;
+        margin-bottom: 10px;
+    }
 }
 
-/* ============================================================
-   576px — Mobile landscape / large phones
-   ============================================================ */
-@media (max-width: 576px) {
+@media (max-width: 575px) {
 
-  /* --- Global Sections --- */
-  .hero-canvas-sec,
-  .know-split-sec,
-  .product-sec,
-  .luxury-main,
-  .creative-sec,
-  .watch-sec,
-  .testi-sec,
-  .form-sec {
-    min-height: auto;
+  .navbar-brand img {
+    width: 120px;
+  }
+
+  .sidebar-menu {
+    padding: 5rem 15px 20px 15px;
   }
 
   /* --- Header --- */
@@ -3479,13 +3590,9 @@ body {
     padding-left: 10px;
   }
 
-  nav .side-box svg {
-    font-size: 20px;
-  }
-
   .theme-btn {
-    padding: 5px 14px;
-    font-size: 12px;
+    padding: 7px 18px;
+    font-size: 14px;
   }
 
   /* --- Hero --- */
@@ -3517,14 +3624,12 @@ body {
     line-height: 1.8;
   }
 
-  .know-btn {
-    padding: 10px 22px;
-    font-size: 13px;
-  }
 
   /* --- Product Section --- */
   .product-sec {
     padding: 50px 0 30px;
+    display: flex;
+    align-items: center;
   }
 
   .product-sec h2 {
@@ -3532,7 +3637,7 @@ body {
     margin: 20px 0 0;
   }
 
-  .product-sec .pro-card {
+  /* .product-sec .pro-card {
     margin: 15px 5px 5px;
     padding: 35px 18px 18px;
     border-radius: 16px;
@@ -3540,9 +3645,12 @@ body {
 
   .product-sec .pro-card img {
     width: 80%;
-  }
+  } */
 
-  .product-sec .pro-card .details {
+
+
+
+  /* .product-sec .pro-card .details {
     padding: 18px 14px;
   }
 
@@ -3558,15 +3666,13 @@ body {
     height: 42px;
     width: 42px;
     padding: 11px;
-  }
+  } */
 
   /* --- Video / Luxury Sections --- */
-  .luxury-section,
   .luxury-section2 {
     height: 70vh;
   }
 
-  .luxury-main,
   .luxury-main2 {
     min-height: 70vh;
   }
@@ -3607,9 +3713,6 @@ body {
   }
 
   /* --- Testimonials --- */
-  .testi-sec {
-    padding: 50px 0 30px;
-  }
 
   .testi-sec h2 {
     font-size: 28px;
@@ -3669,6 +3772,10 @@ body {
   }
 
   /* --- Footer --- */
+  .footer {
+    padding: 70px 0;
+  }
+
   footer {
     padding: 35px 0 20px;
   }
@@ -3706,15 +3813,6 @@ body {
     font-size: 11px;
   }
 
-  /* --- Slider Image --- */
-  .slider-image {
-    height: 45vh;
-  }
-
-  .before-after-slider img {
-    height: 45vh;
-  }
-
   /* --- Creative Video --- */
   .video-content h2 {
     font-size: 36px;
@@ -3723,11 +3821,36 @@ body {
   .video-content p {
     font-size: 14px;
   }
+
+
+      .authors-sub {
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .authors-hd {
+        margin-bottom: 10px;
+        font-size: 25px;
+    }
+
+    .about-hd {
+        font-size: 25px;
+    }
+
+    .about-sub {
+        margin-bottom: 20px;
+        font-size: 16px;
+    }
+
+    .authors-sec {
+        padding: 20% 0 4%;
+    }
+
+    .authors-sec p {
+        font-size: 14px;
+    }
 }
 
-/* ============================================================
-   480px — Small phones
-   ============================================================ */
 @media (max-width: 480px) {
 
   /* --- Hero --- */
@@ -3780,15 +3903,6 @@ body {
     font-size: 14px;
   }
 
-  /* --- Slider Image --- */
-  .slider-image {
-    height: 40vh;
-  }
-
-  .before-after-slider img {
-    height: 40vh;
-  }
-
   /* --- Video Box (scroll section) --- */
   .video-box {
     width: 260px;
@@ -3796,31 +3910,27 @@ body {
   }
 }
 
-/* ============================================================
-   Navbar toggler — Mobile open state centering fix
-   ============================================================ */
-@media (max-width: 992px) {
-  .navbar>.container {
-    position: relative;
-    flex-wrap: wrap;
-  }
+@media (max-width: 475px) {
+    .about-sec {
+        padding: 25% 0 4%;
+    }
 
-  .navbar-toggler {
-    order: 3;
-  }
+    .belief-sub {
+        margin-bottom: 20px;
+        font-size: 17px;
+    }
 
-  .navbar-brand {
-    order: 2;
-    margin: 0 auto;
-  }
+    .belief-hd {
+        font-size: 25px;
+    }
 
-  .side-box {
-    order: 4;
-    margin-left: auto;
-  }
+    .belief-sec .theme-btn {
+        margin-top: 10px;
+    }
+}
 
-  .navbar-collapse {
-    order: 5;
-    width: 100%;
-  }
+@media (max-width: 375px) {
+    .belief-hd {
+        font-size: 22px;
+    }
 }
