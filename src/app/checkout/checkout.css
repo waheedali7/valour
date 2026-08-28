@@ -565,7 +565,6 @@ body {
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
     border: 1px solid var(--border-color);
 }
 

@@ -440,7 +440,7 @@ const BlogDetails = () => {
             <Swiper
               modules={[Autoplay, Pagination]}
               spaceBetween={20}
-              slidesPerView={4}
+              slidesPerView={1}
               loop={true}
               autoplay={{
                 delay: 2000,
@@ -448,23 +448,31 @@ const BlogDetails = () => {
               }}
               pagination={{ clickable: true }}
               breakpoints={{
-                640: {
-                  slidesPerView: 1,
-                  spaceBetween: 10,
-                },
-                768: {
-                  slidesPerView: 2,
-                  spaceBetween: 10,
-                },
-                1024: {
-                  slidesPerView: 3,
-                  spaceBetween: 20,  // below 1400 = 20
-                },
-                1400: {
-                  slidesPerView: 4,
-                  spaceBetween: 20,  // above 1400 = 40
-                },
-              }}
+              575: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+              },
+              768: {
+                slidesPerView: 2,
+                spaceBetween: 10,
+              },
+              991: {
+                slidesPerView: 2,
+                spaceBetween: 15,  // below 991 = 20
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 15,  // below 1024 = 20
+              },
+              1200: {
+                slidesPerView: 4,
+                spaceBetween: 20,  // below 1200 = 20
+              },
+              1400: {
+                slidesPerView: 4,
+                spaceBetween: 20,  // above 1400 = 40
+              },
+            }}
             >
               {latestArticles.map((post, idx) => (
                 <SwiperSlide>

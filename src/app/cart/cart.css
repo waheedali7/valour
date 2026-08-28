@@ -12,6 +12,7 @@ body {
           font-family: 'Jost', sans-serif;
           min-height: 100vh;
               padding: 7% 0 4%;
+              overflow: hidden;
         }
         
 
@@ -254,7 +255,7 @@ body {
         @media (max-width: 768px) {
           .cart-title {
             font-size: 36px;
-            margin-bottom: 50px;
+            margin-bottom: 20px;
           }
           .cart-header {
             display: none;

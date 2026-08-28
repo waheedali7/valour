@@ -64,7 +64,7 @@ const CheckoutSec = () => {
         <div className="container">
           <div className="row">
             {/* Main Content */}
-            <div className="checkout-main col-md-4">
+            <div className="checkout-main col-md-6 col-lg-4">
               {/* Express Checkout */}
               <div className="express-checkout">
                 <div className="express-label">Express checkout</div>
@@ -362,7 +362,6 @@ const CheckoutSec = () => {
                               value={formData.address}
                               onChange={handleInputChange}
                             />
-                            <Search size={18} className="input-icon" color="#888888" />
                           </div>
                         </div>
                         <div className="form-group">
@@ -418,7 +417,6 @@ const CheckoutSec = () => {
                               value={formData.phone}
                               onChange={handleInputChange}
                             />
-                            <HelpCircle size={18} className="input-icon clickable" color="#888888" />
                           </div>
                         </div>
                       </div>
@@ -470,7 +468,7 @@ const CheckoutSec = () => {
             </div>
 
             {/* Sidebar - Order Summary */}
-            <div className="checkout-sidebar col-md-4">
+            <div className="checkout-sidebar col-md-6 col-lg-4">
               <div className="sticky-sec">
                 <div className="sidebar-header">
                   <h3 className="sidebar-title">Order summary</h3>
