@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import AutoPlayVideo from './AutoPlayVideo'
 
 export default function PremiumParallax() {
   const imageRefs = useRef([])
@@ -48,7 +49,7 @@ export default function PremiumParallax() {
     <main className="luxury-main">
       <section className="luxury-section">
         <div className="luxury-image-wrap">
-          <video
+          <AutoPlayVideo
             ref={el => {
               if (el && !imageRefs.current.includes(el)) {
                 imageRefs.current.push(el)
@@ -56,10 +57,6 @@ export default function PremiumParallax() {
             }}
             className="luxury-image"
             src="/videos/sec-video.mp4"
-            autoPlay
-            loop
-            muted
-            playsInline
           />
         </div>
       </section>

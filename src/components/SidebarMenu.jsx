@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import IconBox from './IconBox';
 import AppointmentModal from './AppointmentModal';
+import Link from 'next/link';
 
 const SidebarMenu = ({ setIsSidebarOpen, isSidebarOpen }) => {
         const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,10 +26,10 @@ const SidebarMenu = ({ setIsSidebarOpen, isSidebarOpen }) => {
             <div className={`side-overlay ${isSidebarOpen ? "active" : ""}`} ref={ref}></div>
             <div className={`sidebar-menu ${isSidebarOpen ? "active" : ""}`}>
                 <ul className="link-list">
-                    <li><a href="/" className='hover-link'>Home</a></li>
-                    <li><a href="/about" className='hover-link'>About</a></li>
-                    <li><a href="/our-shop" className='hover-link'>Our Shop</a></li>
-                    <li><a href="/blog" className='hover-link'>Blog</a></li>
+                    <li><Link href="/" className='hover-link'>Home</Link></li>
+                    <li><Link href="/about" className='hover-link'>About</Link></li>
+                    <li><Link href="/our-shop" className='hover-link'>Our Shop</Link></li>
+                    <li><Link href="/blog" className='hover-link'>Blog</Link></li>
                 </ul>
                 <div className="link-sec">
                     <div className="row">

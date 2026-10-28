@@ -1,5 +1,5 @@
 /* @import "tailwindcss"; */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* Poppins is loaded once for the whole site in src/app/layout.js. */
 
 :root {
   --background: #000;
@@ -146,6 +146,34 @@ nav .side-box svg:hover {
   color: #ffffff9c;
 }
 
+/* Cart button + item count badge */
+nav .side-box .cart-trigger {
+  position: relative;
+  display: inline-flex;
+}
+
+nav .side-box .cart-trigger:focus-visible {
+  outline: 1px solid #fff;
+  outline-offset: 4px;
+}
+
+nav .side-box .cart-count {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background-color: #fff;
+  color: #000;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+  pointer-events: none;
+}
+
 /* //////////////Navbar End///////////// */
 
 /* ////////////////Hero Start///////////// */
@@ -210,7 +238,7 @@ nav .side-box svg:hover {
 
 /* ////////////////Know Start/////////// */
 .know-sec {
-  height: 100vh;
+  height: var(--snap-h);
   padding: 5% 0 3%;
   background: none;
   position: relative;
@@ -754,7 +782,7 @@ footer {
 }
 
 .footer {
-  height: 100vh;
+  height: var(--snap-h);
   padding-top: 9%;
   display: flex;
   flex-direction: column;
@@ -1227,7 +1255,7 @@ header.header-scrolled {
   position: relative;
   overflow: hidden;
   padding-top: 0;
-  height: 100vh;
+  height: var(--snap-h);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2013,10 +2041,10 @@ SCROLL VIDEO
 
 .luxury-image2 {
   width: 100%;
-  height: 120%;
+  height: 100vh;
   object-fit: cover;
   position: absolute;
-  top: -10%;
+  /* top: -10%; */
   left: 0;
   transform: scale(1.25);
   will-change: transform;
@@ -2075,7 +2103,7 @@ SCROLL VIDEO
 
 .luxury-section {
   position: relative;
-  height: 100vh;
+  height: var(--snap-h);
   overflow: hidden;
 }
 
@@ -2102,10 +2130,10 @@ SCROLL VIDEO
 
 .luxury-image {
   width: 100%;
-  height: 120%;
+  height: var(--snap-h);
   object-fit: cover;
   position: absolute;
-  top: -10%;
+  /* top: -10%; */
   left: 0;
   transform: scale(1.25);
   will-change: transform;
@@ -2207,11 +2235,41 @@ body {
   /* overflow: hidden; */
 }
 
+/* One "page" = the visible viewport. dvh tracks mobile browser chrome. */
+:root {
+  --snap-h: 100vh;
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --snap-h: 100dvh;
+  }
+}
+
+/* ScrollProvider drives wheel/keyboard snapping with GSAP; scroll-snap covers
+   touch and native scrolling. The scrollbar is hidden so sections are exactly
+   100vw wide. */
+#main-scroller {
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+#main-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* Every section is exactly one viewport: never taller, never shorter. */
 .snap-section {
-  /* scroll-snap-align: start; */
-  /* width: 100%; */
-  /* position: relative; */
-  min-height: 100vh;
+  position: relative;
+  width: 100%;
+  height: var(--snap-h);
+  min-height: 0;
+  max-height: var(--snap-h);
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 ::-webkit-scrollbar {
@@ -2235,12 +2293,25 @@ body {
 
 /* -------------slider image---------- */
 .slider-image {
-  height: 100vh;
+  height: var(--snap-h);
 }
 
+/* The watch sits ~0.67% left of center in the 3039x1350 source photos;
+   shift by that fraction of the rendered (cover) width so its center pin
+   lands on the delimiter at every viewport size. */
 .before-after-slider img {
-  height: 100vh;
+  height: var(--snap-h);
   object-fit: cover;
+  object-position: calc(50% + max(100vw, 225.11vh) * 0.0067) 50%;
+}
+
+/* Viewports wider than the photo leave no crop slack, so scale up slightly
+   to avoid exposing a gap on the left edge. */
+@media (min-aspect-ratio: 3039/1350) {
+  .before-after-slider img {
+    object-position: 50% 50%;
+    transform: translateX(0.68%) scale(1.015);
+  }
 }
 
 
@@ -2350,6 +2421,20 @@ body {
   object-fit: cover;
 }
 
+/* Custom watch thumbnail: layer images stacked in one 90px box. The first
+   layer stays in flow to size the box; the rest sit on top of it. */
+.cart-sidebar .item .cart-layers {
+  position: relative;
+  width: 90px;
+}
+
+.cart-sidebar .item .cart-layers img + img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+
 .cart-sidebar .t-box {
   display: flex;
   justify-content: space-between;
@@ -2407,6 +2492,62 @@ body {
 
 .cart-sidebar .head span {
   font-size: 13px;
+}
+
+/* Only the item list scrolls; head and checkout area stay in view. */
+.cart-sidebar .cart-sidebar-main {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.cart-sidebar .items {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.cart-sidebar .bottom {
+  flex-shrink: 0;
+}
+
+.cart-sidebar .item-link {
+  text-decoration: none;
+}
+
+.cart-sidebar button.rm {
+  background: none;
+  border: none;
+  padding: 0 0 4px;
+}
+
+.cart-sidebar .clear-cart {
+  align-self: flex-start;
+  margin: 20px 0;
+}
+
+.cart-sidebar .empty-text {
+  padding-top: 25px;
+  margin: 0;
+  font-size: 16px;
+  color: rgba(256, 256, 256, .7);
+}
+
+/* Cart feedback inside the sidebar (takes no space when empty). */
+.cart-sidebar .cart-notice {
+  margin: 0;
+  font-size: 14px;
+  color: #fff;
+}
+
+.cart-sidebar .cart-notice:not(:empty) {
+  padding-top: 15px;
+}
+
+.cart-sidebar .cart-notice.error {
+  color: #ff8a80;
 }
 
 
@@ -3282,7 +3423,7 @@ body {
 
   /* --- Hero --- */
   .hero-canvas-sec {
-    height: 100vh !important;
+    height: var(--snap-h) !important;
   }
 
   .animated-text {
@@ -3420,7 +3561,7 @@ body {
 
   /* --- Creative Video --- */
   .creative-sec {
-    min-height: 100vh;
+    min-height: var(--snap-h);
   }
 
   .about-hd {
@@ -3830,7 +3971,7 @@ body {
   }
 
   .hero-canvas-sec {
-    height: 100vh;
+    height: var(--snap-h);
   }
 
   /* --- Know Section --- */
@@ -4263,5 +4404,928 @@ body {
 @media (max-width: 375px) {
   .belief-hd {
     font-size: 22px;
+  }
+}
+/* Original price shown struck through before a sale price (database products). */
+.price-was { opacity: 0.55; font-size: 0.85em; margin-right: 0.35em; text-decoration: line-through; }
+
+/* ============================================================
+   SNAP SECTION FIT
+   Each .snap-section is exactly one viewport, so its content is sized with
+   viewport-relative units (vh) to fit short screens such as 1366x768 laptops.
+   Keep this block last so it wins over the breakpoint rules above.
+   ============================================================ */
+
+/* --- Watch --- */
+.watch-sec {
+  height: 100%;
+  min-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.watch-sec > .container,
+.watch-sec .row {
+  height: 100%;
+  min-height: 0;
+}
+
+.watch-sec .text-col {
+  height: auto !important;
+}
+
+.watch-img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(var(--snap-h) * 0.78);
+}
+
+.watch-text {
+  height: auto;
+  padding-bottom: 0;
+}
+
+.watch-text span {
+  margin-bottom: clamp(8px, 2vh, 18px);
+}
+
+.watch-text h2 {
+  font-size: clamp(28px, min(9vh, 5.2vw), 75px);
+  margin-bottom: clamp(8px, 2vh, 16px);
+}
+
+.watch-text p {
+  font-size: clamp(13px, 2.2vh, 17px);
+  line-height: 1.8;
+}
+
+/* --- Testimonials --- */
+.testi-sec {
+  height: 100%;
+  min-height: 0;
+  padding: clamp(64px, 11vh, 120px) 0 clamp(12px, 3vh, 32px);
+  display: flex;
+  align-items: center;
+}
+
+.testi-sec > .container {
+  width: 100%;
+}
+
+.testi-sec h2 {
+  font-size: clamp(26px, min(8vh, 4.3vw), 65px);
+}
+
+.testi-sec .main-para {
+  font-size: clamp(12px, 2vh, 17px);
+  line-height: 1.7;
+  margin-top: clamp(8px, 2vh, 20px);
+}
+
+.testi-sec .side {
+  gap: clamp(12px, 4vh, 5rem);
+}
+
+.testi-sec .side.side-2 {
+  padding-top: 0;
+}
+
+.testi-sec .testi-desc {
+  font-size: clamp(12px, 1.9vh, 16px);
+  line-height: 1.65;
+}
+
+.testi-sec .star-box {
+  margin-bottom: clamp(6px, 1.5vh, 20px);
+}
+
+.testi-sec .star-box svg {
+  font-size: clamp(16px, 3vh, 25px);
+}
+
+.testi-sec .user-box img {
+  height: clamp(36px, 7vh, 60px);
+  width: auto;
+}
+
+.testi-sec .name {
+  font-size: clamp(15px, 2.6vh, 22px);
+}
+
+.testi-sec .desig {
+  font-size: clamp(12px, 2.1vh, 18px);
+}
+
+/* --- Footer --- */
+.footer {
+  height: 100%;
+  padding-top: clamp(56px, 9vh, 110px);
+}
+
+.cta-sec {
+  padding-bottom: clamp(8px, 2vh, 4%);
+}
+
+.cta-sec h2 {
+  font-size: clamp(24px, min(6vh, 3.4vw), 50px);
+  margin-bottom: clamp(8px, 2.5vh, 30px);
+}
+
+.cta-sec p {
+  font-size: clamp(12px, 2vh, 17px);
+  line-height: 1.7;
+}
+
+footer {
+  padding: clamp(12px, 3vh, 3%) 0 clamp(8px, 2vh, 25px);
+}
+
+.mid-footer {
+  padding: clamp(4px, 1.5vh, 2%) 0 clamp(8px, 2vh, 3%);
+}
+
+.footer-desc {
+  font-size: clamp(12px, 2vh, 17px);
+  line-height: 1.7;
+  margin-top: clamp(10px, 2.5vh, 30px);
+}
+
+.mid-footer ul li {
+  margin-bottom: clamp(4px, 1.2vh, 10px);
+}
+
+.mid-footer .footer-link {
+  font-size: clamp(13px, 2.2vh, 18px);
+}
+
+.mid-footer .footer-link2,
+.mid-footer .footer-p {
+  font-size: clamp(12px, 2vh, 16px);
+}
+
+.mid-footer .link-box {
+  gap: clamp(3px, 0.9vh, 7px);
+}
+
+.mid-footer .border-row {
+  padding-bottom: clamp(8px, 2vh, 20px);
+}
+
+.mid-footer .border-row.two {
+  padding: clamp(8px, 2.2vh, 6%) 0;
+}
+
+/* Breakpoint rules above switch several section roots to height:auto /
+   min-height:100vh on small screens; pin them back to exactly one viewport. */
+#main-scroller .snap-section > :only-child {
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+}
+
+/* A section holding several stacked blocks (client services) is laid out as a
+   column that fills the viewport instead. */
+#main-scroller .snap-section.snap-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#main-scroller .snap-section.snap-stack > * {
+  height: auto;
+  min-height: 0;
+  flex: 0 0 auto;
+}
+
+/* --- Phones / narrow screens: stacked layouts, compacted to fit one screen --- */
+@media (max-width: 767px) {
+  .watch-sec .row {
+    align-content: center;
+    padding-top: clamp(48px, 8vh, 72px);
+  }
+
+  .watch-img {
+    max-height: calc(var(--snap-h) * 0.34);
+  }
+
+  .watch-text h2 {
+    font-size: clamp(22px, 4.2vh, 34px);
+  }
+
+  .watch-text p {
+    font-size: clamp(12px, 1.8vh, 15px);
+    line-height: 1.6;
+  }
+
+  .testi-sec {
+    padding: clamp(56px, 9vh, 80px) 0 clamp(8px, 2vh, 20px);
+  }
+
+  .testi-sec h2 {
+    font-size: clamp(22px, 3.8vh, 34px);
+  }
+
+  .testi-sec .main-para,
+  .testi-sec .testi-desc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    padding-right: 0;
+    font-size: clamp(11px, 1.7vh, 14px);
+    line-height: 1.5;
+  }
+
+  .testi-sec .row {
+    row-gap: clamp(6px, 1.5vh, 16px);
+  }
+
+  .testi-sec .side,
+  .testi-sec .side.side-2 {
+    gap: clamp(6px, 1.5vh, 16px);
+    padding: 0;
+  }
+
+  .testi-sec .testi-box1 {
+    padding-right: 0;
+  }
+
+  .footer {
+    padding-top: clamp(48px, 8vh, 72px);
+  }
+
+  .cta-sec p,
+  .footer-desc {
+    display: none;
+  }
+
+  .cta-sec h2 {
+    font-size: clamp(20px, 3.4vh, 28px);
+    margin-bottom: 8px;
+  }
+
+  .cta-sec .row {
+    row-gap: 10px;
+  }
+
+  .cta-sec .input-box {
+    width: 100%;
+  }
+
+  .mid-footer img {
+    height: clamp(28px, 5vh, 44px);
+    width: auto;
+  }
+
+  .mid-footer .row {
+    row-gap: clamp(6px, 1.5vh, 14px);
+  }
+
+  .mid-footer ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin: 0;
+  }
+
+  .mid-footer ul li {
+    margin: 0;
+  }
+
+  .mid-footer .border-row > [class*='col-'] {
+    flex: 0 0 50%;
+    max-width: 50%;
+    width: 50%;
+  }
+
+  .mid-footer .border-row.two {
+    padding: clamp(6px, 1.4vh, 14px) 0;
+  }
+
+  .inner-footer {
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
+  }
+
+  .inner-footer p,
+  .inner-footer a {
+    font-size: 11px;
+  }
+}
+
+/* --- Short screens (landscape phones, tiny laptops windows) --- */
+@media (max-height: 520px) {
+  .know-split-sec {
+    padding-top: 56px;
+    padding-bottom: 12px;
+  }
+
+  .know-left-sticky {
+    padding-top: 0;
+  }
+
+  .know-sec h2.know-big-h {
+    font-size: clamp(24px, 9vh, 40px);
+  }
+
+  .know-sec .know-para-text {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .testi-sec .main-para,
+  .cta-sec p,
+  .footer-desc {
+    display: none;
+  }
+
+  .watch-sec .row {
+    padding-top: 48px;
+  }
+
+  .watch-text h2 {
+    font-size: clamp(22px, 8vh, 40px);
+  }
+
+  .watch-text p {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .testi-sec {
+    padding-top: 52px;
+  }
+
+  .testi-sec .testi-desc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .testi-sec .user-box img {
+    height: 32px;
+  }
+
+  .footer {
+    padding-top: 48px;
+  }
+
+  .mid-footer img {
+    height: 28px;
+    width: auto;
+  }
+
+  .mid-footer .border-row.two {
+    padding: 6px 0;
+  }
+}
+
+/* --- Home product carousel (scoped so the shop page cards keep their size) --- */
+.product-sec {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(56px, 10vh, 110px) 0 clamp(12px, 3vh, 40px);
+}
+
+.product-sec h2 {
+  font-size: clamp(24px, min(7vh, 3.6vw), 55px);
+  margin: 0 0 clamp(8px, 2.5vh, 24px);
+}
+
+.product-sec .swiper-slide {
+  margin-bottom: 0;
+}
+
+.product-sec .swiper-pagination.swiper-pagination-bullets {
+  position: relative;
+  bottom: auto;
+  margin-top: clamp(10px, 2.5vh, 28px);
+}
+
+.product-sec .ht-image-wrap {
+  padding: clamp(8px, 2.5vh, 30px) 20px;
+}
+
+.product-sec .ht-card-img {
+  width: auto;
+  max-width: 80%;
+  height: clamp(110px, 30vh, 330px);
+}
+
+.product-sec .ht-card-info {
+  padding: clamp(8px, 2vh, 20px);
+}
+
+.product-sec .ht-card-name {
+  font-size: clamp(18px, 3.6vh, 30px);
+}
+
+@media (max-height: 520px) {
+  .product-sec {
+    padding-top: 52px;
+  }
+
+  .product-sec .ht-card-img {
+    height: 24vh;
+  }
+
+  .product-sec .ht-card-subtitle,
+  .product-sec .ht-card-specs {
+    display: none;
+  }
+}
+
+/* --- Policy / servicing / warranty content sections --- */
+#main-scroller .section-warranty,
+#main-scroller .section-shipping,
+#main-scroller .section-returns {
+  padding: clamp(56px, 10vh, 100px) 0 clamp(12px, 3vh, 32px);
+}
+
+#main-scroller .section-inner {
+  gap: clamp(24px, 4vw, 80px);
+}
+
+#main-scroller .section-label {
+  margin-bottom: clamp(6px, 2vh, 30px);
+  font-size: clamp(12px, 2.2vh, 20px);
+}
+
+#main-scroller .section-title {
+  margin-bottom: clamp(8px, 2vh, 26px);
+  font-size: clamp(24px, min(8vh, 4.5vw), 75px);
+}
+
+#main-scroller .section-text,
+#main-scroller .bullet-item {
+  font-size: clamp(12px, 2vh, 18px);
+  line-height: 1.6;
+}
+
+#main-scroller .section-text {
+  margin-bottom: clamp(6px, 1.5vh, 15px);
+}
+
+#main-scroller .bullet-list {
+  margin-top: clamp(6px, 2vh, 32px);
+}
+
+#main-scroller .bullet-item {
+  margin-bottom: clamp(3px, 1vh, 15px);
+}
+
+#main-scroller .section-image,
+#main-scroller .section-image.w-img,
+#main-scroller .section-image.s-img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(var(--snap-h) * 0.62);
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* --- About: authors --- */
+#main-scroller .authors-sec {
+  padding: clamp(56px, 10vh, 110px) 0 clamp(12px, 3vh, 40px);
+}
+
+#main-scroller .authors-sub {
+  margin-bottom: clamp(6px, 2vh, 30px);
+  font-size: clamp(12px, 2.2vh, 20px);
+}
+
+#main-scroller .authors-hd {
+  margin-bottom: clamp(8px, 2vh, 26px);
+  font-size: clamp(26px, min(8vh, 4.2vw), 61px);
+}
+
+#main-scroller .authors-sec p {
+  margin-bottom: clamp(6px, 1.5vh, 15px);
+  font-size: clamp(12px, 2vh, 18px);
+  line-height: 1.7;
+}
+
+/* --- Client services: tabs + detail share one screen --- */
+#main-scroller .services-hero {
+  padding: clamp(56px, 10vh, 90px) 0 clamp(6px, 1vh, 12px);
+}
+
+#main-scroller .hero-title {
+  font-size: clamp(24px, 5.5vh, 46px);
+  padding-bottom: clamp(6px, 1.5vh, 20px);
+}
+
+#main-scroller .service-tab {
+  padding: clamp(5px, 1vh, 9px) clamp(12px, 1.6vw, 20px);
+  font-size: clamp(11px, 1.8vh, 13px);
+}
+
+#main-scroller .service-detail {
+  width: 100%;
+  padding: clamp(6px, 1.5vh, 16px) 0;
+}
+
+#main-scroller .detail-grid {
+  gap: clamp(16px, 3vw, 64px);
+  align-items: center;
+}
+
+#main-scroller .detail-image-wrapper {
+  aspect-ratio: auto;
+  height: clamp(160px, 48vh, 520px);
+}
+
+#main-scroller .detail-content {
+  padding-top: 0;
+}
+
+#main-scroller .detail-icon {
+  width: clamp(32px, 6vh, 50px);
+  height: clamp(32px, 6vh, 50px);
+  margin-bottom: clamp(6px, 1.5vh, 24px);
+}
+
+#main-scroller .detail-title {
+  margin-bottom: clamp(6px, 1.5vh, 16px);
+  font-size: clamp(20px, 4.2vh, 36px);
+}
+
+#main-scroller .detail-description {
+  font-size: clamp(12px, 1.9vh, 16px);
+  line-height: 1.5;
+}
+
+#main-scroller .detail-feature {
+  padding: clamp(3px, 0.8vh, 12px) 0;
+  font-size: clamp(12px, 1.8vh, 15px);
+}
+
+#main-scroller .detail-meta {
+  padding: clamp(6px, 1.2vh, 16px) 1.25rem;
+  margin-bottom: clamp(8px, 1.5vh, 24px);
+}
+
+#main-scroller .detail-cta {
+  padding: clamp(8px, 1.5vh, 16px) 2rem;
+}
+
+/* --- Client services: contact + FAQ --- */
+#main-scroller .contact-section {
+  display: flex;
+  align-items: center;
+  padding: clamp(56px, 11vh, 110px) 0 clamp(8px, 2vh, 24px);
+}
+
+#main-scroller .contact-section > .container {
+  width: 100%;
+}
+
+#main-scroller .contact-info h2,
+#main-scroller .faq-section h2 {
+  margin-bottom: clamp(8px, 2vh, 30px);
+  font-size: clamp(24px, 5.5vh, 46px);
+}
+
+#main-scroller .contact-info > p {
+  margin-bottom: clamp(8px, 2vh, 40px);
+  font-size: clamp(12px, 1.9vh, 16px);
+  line-height: 1.5;
+}
+
+#main-scroller .contact-methods,
+#main-scroller .faq-list {
+  gap: clamp(6px, 1.4vh, 20px);
+}
+
+#main-scroller .contact-method {
+  padding: clamp(8px, 1.6vh, 20px);
+}
+
+#main-scroller .faq-question {
+  padding: clamp(8px, 1.5vh, 18px) 1.25rem;
+}
+
+#main-scroller .faq-question-text {
+  font-size: clamp(12px, 1.9vh, 15px);
+}
+
+#main-scroller .faq-item.open .faq-answer {
+  padding-bottom: clamp(8px, 1.5vh, 20px);
+}
+
+#main-scroller .faq-answer-text {
+  font-size: clamp(11px, 1.7vh, 14px);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Layouts stack into one column at 991px on these pages. */
+@media (max-width: 991px) {
+  #main-scroller .section-inner {
+    gap: clamp(8px, 2vh, 20px);
+  }
+
+  #main-scroller .section-title,
+  #main-scroller .authors-hd {
+    font-size: clamp(22px, 4vh, 34px);
+  }
+
+  #main-scroller .section-text,
+  #main-scroller .bullet-item,
+  #main-scroller .authors-sec p {
+    font-size: clamp(11px, 1.7vh, 14px);
+    line-height: 1.5;
+  }
+
+  #main-scroller .bullet-item {
+    margin-bottom: 2px;
+  }
+
+  #main-scroller .section-image,
+  #main-scroller .section-image.w-img,
+  #main-scroller .section-image.s-img {
+    max-height: calc(var(--snap-h) * 0.24);
+  }
+
+  #main-scroller .detail-image-wrapper {
+    display: none;
+  }
+
+  #main-scroller .detail-grid {
+    gap: 0;
+  }
+
+  #main-scroller .contact-info > p {
+    display: none;
+  }
+
+  #main-scroller .contact-section .row {
+    row-gap: clamp(8px, 2vh, 20px);
+  }
+
+  #main-scroller .contact-method-value {
+    font-size: clamp(12px, 1.8vh, 15px);
+  }
+}
+
+/* --- Short screens: page heroes and content sections --- */
+@media (max-height: 520px) {
+  #main-scroller .about-sec,
+  #main-scroller .s-sec,
+  #main-scroller .w-sec,
+  #main-scroller .p-sec {
+    padding: 56px 0 12px;
+  }
+
+  #main-scroller .about-hd,
+  #main-scroller .s-hd,
+  #main-scroller .w-hd,
+  #main-scroller .p-hd {
+    margin-bottom: 8px;
+    font-size: clamp(24px, 9vh, 40px);
+  }
+
+  #main-scroller .about-sub,
+  #main-scroller .s-sub {
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+
+  #main-scroller .about-sec p,
+  #main-scroller .s-sec p,
+  #main-scroller .w-sec p,
+  #main-scroller .p-sec p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+
+  #main-scroller .authors-sec {
+    padding-top: 52px;
+  }
+
+  #main-scroller .section-image,
+  #main-scroller .section-image.w-img,
+  #main-scroller .section-image.s-img {
+    max-height: calc(var(--snap-h) * 0.4);
+  }
+
+  #main-scroller .detail-image-wrapper {
+    display: none;
+  }
+
+  #main-scroller .services-hero {
+    padding-top: 52px;
+  }
+
+  #main-scroller .contact-section {
+    padding-top: 52px;
+  }
+
+  #main-scroller .contact-info > p {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  #main-scroller .contact-info h2,
+  #main-scroller .faq-section h2 {
+    margin-bottom: clamp(6px, 1.2vh, 14px);
+    font-size: clamp(22px, min(4.5vh, 8vw), 34px);
+  }
+
+  #main-scroller .contact-method {
+    align-items: center;
+    padding: clamp(6px, 1.1vh, 12px) 12px;
+  }
+
+  #main-scroller .contact-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  #main-scroller .contact-methods,
+  #main-scroller .faq-list {
+    gap: clamp(4px, 0.8vh, 8px);
+  }
+
+  #main-scroller .faq-question {
+    padding: clamp(6px, 1vh, 12px) 12px;
+  }
+
+  #main-scroller .faq-question-text {
+    font-size: clamp(11px, 1.6vh, 14px);
+  }
+}
+
+@media (max-width: 991px) and (max-height: 900px) {
+  #main-scroller .faq-item:nth-child(n + 5) {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  #main-scroller .authors-sec img.authors {
+    display: block;
+    width: auto;
+    max-height: calc(var(--snap-h) * 0.28);
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 767px) {
+  #main-scroller .authors-hd {
+    font-size: clamp(20px, 3.4vh, 28px);
+  }
+}
+
+@media (max-width: 991px) and (max-height: 760px) {
+  #main-scroller .detail-icon {
+    display: none;
+  }
+}
+
+/* Landscape phones: keep the two-column layouts instead of stacking. */
+@media (max-height: 520px) and (min-width: 600px) {
+  #main-scroller .section-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  #main-scroller .detail-meta,
+  #main-scroller .detail-description,
+  #main-scroller .detail-icon {
+    display: none;
+  }
+
+  #main-scroller .detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #main-scroller .authors-sec img.authors {
+    max-height: calc(var(--snap-h) * 0.5);
+  }
+
+  #main-scroller .authors-sec .row {
+    flex-wrap: nowrap;
+  }
+
+  #main-scroller .authors-sec .row > div {
+    flex: 1 1 50%;
+    width: 50%;
+    max-width: 50%;
+  }
+
+  #main-scroller .authors-sec .row > div:nth-child(n + 3) {
+    flex: 0 0 0;
+    width: 0;
+    max-width: 0;
+    padding: 0;
+  }
+}
+
+/* --- Product detail (watch) sections --- */
+#main-scroller .nova-section {
+  min-height: 0;
+  padding-top: clamp(48px, 8vh, 80px);
+}
+
+#main-scroller .nova-text-col {
+  padding-top: clamp(8px, 3vh, 64px);
+  padding-bottom: clamp(8px, 3vh, 64px);
+}
+
+#main-scroller .sm-title {
+  margin-bottom: clamp(8px, 2vh, 24px);
+  font-size: clamp(26px, min(8vh, 5vw), 75px);
+}
+
+#main-scroller .nova-section .desc,
+#main-scroller .desc {
+  margin-bottom: clamp(8px, 2.5vh, 36px);
+  font-size: clamp(12px, 2vh, 17px);
+  line-height: 1.7;
+}
+
+#main-scroller .nova-table tbody td {
+  padding-top: clamp(3px, 1vh, 11px);
+  padding-bottom: clamp(3px, 0.9vh, 9px);
+  font-size: clamp(11px, 1.9vh, 16px);
+}
+
+#main-scroller .nova-image-col {
+  min-height: 0;
+}
+
+#main-scroller .nova-image-col img {
+  width: auto;
+  max-width: 100%;
+  max-height: calc(var(--snap-h) * 0.78);
+  object-fit: contain;
+}
+
+#main-scroller .d-sec-2,
+#main-scroller .d-sec-2 .img-sec {
+  min-height: 0;
+}
+
+#main-scroller .d-sec-2 .img-sec {
+  height: 100%;
+}
+
+#main-scroller .strap-sec {
+  padding: clamp(56px, 9vh, 100px) 0 clamp(8px, 2vh, 24px);
+}
+
+#main-scroller .strap-sec .strap-box img {
+  width: auto;
+  max-width: 55%;
+  max-height: calc(var(--snap-h) * 0.42);
+  object-fit: contain;
+}
+
+@media (max-width: 991px) {
+  #main-scroller .nova-image-col img {
+    max-height: calc(var(--snap-h) * 0.22);
+  }
+}
+
+@media (max-height: 520px) {
+  #main-scroller .nova-section {
+    padding-top: 48px;
+  }
+
+  #main-scroller .nova-image-col img {
+    max-height: calc(var(--snap-h) * 0.7);
+  }
+
+  #main-scroller .nova-table tbody tr:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+#main-scroller .nova-text-col .sm-title {
+  font-size: clamp(24px, min(6.5vh, 3.4vw), 60px);
+}
+
+@media (max-width: 991px) {
+  #main-scroller .nova-text-col .sm-title {
+    font-size: clamp(22px, min(4vh, 7vw), 32px);
+  }
+
+  #main-scroller .nova-image-col .row > div:nth-child(n + 2) {
+    display: none;
+  }
+
+  #main-scroller .nova-table tbody tr:nth-child(n + 5) {
+    display: none;
   }
 }

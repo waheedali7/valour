@@ -374,7 +374,7 @@ const ClientServices = () => {
             <Header />
             <PageTransition />
             <ScrollProvider>
-                <div className="snap-section">
+                <div className="snap-section snap-stack">
                     <section className="services-hero">
                         <div className="container">
                             <h1 className="hero-title">Client Services</h1>

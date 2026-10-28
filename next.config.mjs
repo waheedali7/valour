@@ -1,6 +1,6 @@
-/** @type {import('next).NextConfig} */
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Runs as a Node server (`next start`); static export (`output: 'export'`) removed.
   basePath: process.env.BASE_PATH || '',
   assetPrefix: process.env.BASE_PATH || '',
   trailingSlash: true,
@@ -13,6 +13,15 @@ const nextConfig = {
   },
 
   transpilePackages: ['gsap'],
+
+  // Permanent (308) redirect for the old single product page. Products are
+  // database-driven: old /straps/{slug}/ addresses are forwarded by
+  // src/app/straps/[slug]/page.jsx for published database straps.
+  async redirects() {
+    return [
+      { source: '/product-details/', destination: '/our-shop/', permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

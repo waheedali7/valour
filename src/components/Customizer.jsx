@@ -1,10 +1,16 @@
 "use client"
-import Link from 'next/link';
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import SplitType from 'split-type'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
+import Image from 'next/image';
+import { customizerOptions, DEFAULT_CUSTOM_OPTIONS } from '@/data/catalog';
+import { useAddToCart } from '@/app/features/cart/useCartActions';
 
+
+const { case: caseOptions, dial: dialOptions, strap: strapOptions } = customizerOptions;
+
+const findImage = (options, id) => options.find((option) => option.id === id)?.image;
 
 
 const Customizer = () => {
@@ -12,6 +18,16 @@ const Customizer = () => {
     const imgContainerRef = useRef(null)
     const headingRef = useRef(null)
     const tabMainRef = useRef(null)
+    const [selection, setSelection] = useState(DEFAULT_CUSTOM_OPTIONS);
+    const addToCart = useAddToCart();
+
+    // Option click: update the selection and show the option's name, as before.
+    const selectOption = (key, option) => (e) => {
+        e.preventDefault();
+        setSelection((prev) => ({ ...prev, [key]: option.id }));
+        document.getElementById('stepDescription').textContent = option.name;
+    };
+
 
     useEffect(() => {
         if (typeof window === 'undefined') return
@@ -99,164 +115,112 @@ const Customizer = () => {
     }, [])
 
     useEffect(() => {
-const tabs = document.querySelectorAll(".tab-pane");
-const navLinks = document.querySelectorAll("#stepTabs .nav-link");
-const range = document.getElementById("stepRange");
-const heading = document.getElementById("stepHeading");
-const description = document.getElementById("stepDescription");
-const next = document.getElementById("nextBtn");
-const prev = document.getElementById("prevBtn");
+        const tabs = document.querySelectorAll(".tab-pane");
+        const navLinks = document.querySelectorAll("#stepTabs .nav-link");
+        const range = document.getElementById("stepRange");
+        const heading = document.getElementById("stepHeading");
+        const description = document.getElementById("stepDescription");
+        const next = document.getElementById("nextBtn");
+        const prev = document.getElementById("prevBtn");
 
-const headings = [
-   "1. Choose Your Case",
-   "2. Choose Your Dial",
-   "3. Choose Your Band"
-];
+        const headings = [
+            "1. Choose Your Case",
+            "2. Choose Your Dial",
+            "3. Choose Your Band"
+        ];
 
-const descriptions = [
-   "Case",
-   "Dial",
-   "Band"
-];
-let current = 0;
+        const descriptions = [
+            "Case",
+            "Dial",
+            "Band"
+        ];
+        let current = 0;
 
-function updateUI(index = current) {
+        function updateUI(index = current) {
 
-   current = index;
+            current = index;
 
-   tabs[current].classList.remove("show");
-   tabs[current].style.opacity = '0';
-   tabs[current].style.transform = 'translateX(20px)';
+            tabs[current].classList.remove("show");
+            tabs[current].style.opacity = '0';
+            tabs[current].style.transform = 'translateX(20px)';
 
-   setTimeout(() => {
-      tabs.forEach(tab => tab.classList.remove("show", "active"));
-      navLinks.forEach(link => link.classList.remove("active"));
+            setTimeout(() => {
+                tabs.forEach(tab => tab.classList.remove("show", "active"));
+                navLinks.forEach(link => link.classList.remove("active"));
 
-      tabs[current].classList.add("show", "active");
-      navLinks[current].classList.add("active");
+                tabs[current].classList.add("show", "active");
+                navLinks[current].classList.add("active");
 
-      range.value = current;
+                range.value = current;
 
-      const percent = (current / (tabs.length - 1)) * 100;
-      range.style.setProperty("--fill-percent", percent + "%");
+                const percent = (current / (tabs.length - 1)) * 100;
+                range.style.setProperty("--fill-percent", percent + "%");
 
-      heading.textContent = headings[current];
-      description.textContent = descriptions[current];
+                heading.textContent = headings[current];
+                description.textContent = descriptions[current];
 
-      tabs[current].style.opacity = '1';
-      tabs[current].style.transform = 'translateX(0)';
-   }, 150);
-}
-navLinks.forEach((tab, index) => {
-   tab.addEventListener("click", () => {
-      updateUI(index);
-   });
-});
-next.onclick = () => {
-   if (current < tabs.length - 1) {
-      current++;
-      updateUI();
-   }
-};
+                tabs[current].style.opacity = '1';
+                tabs[current].style.transform = 'translateX(0)';
+                if (current === 0) {
+                    prev.style.display = 'none';
+                } else {
+                    prev.style.display = 'inline-block';
+                }
 
-prev.onclick = () => {
-   if (current > 0) {
-      current--;
-      updateUI();
-   }
-};
-range.addEventListener("input", function () {
-   updateUI(Number(this.value));
-});
-
-updateUI(0);
+                // Next button
+                if (current === tabs.length - 1) {
+                    next.style.display = 'none';
+                } else {
+                    next.style.display = 'inline-block';
+                }
+            }, 150);
+        }
 
 
-const imgCase = document.getElementById("imgCase");
-const imgDial = document.getElementById("imgDial");
-const imgStrap = document.getElementById("imgStrap");
+        navLinks.forEach((tab, index) => {
+            tab.addEventListener("click", () => {
+                updateUI(index);
+            });
+        });
+        next.onclick = () => {
+            if (current < tabs.length - 1) {
+                current++;
+                updateUI();
+            }
+        };
 
+        prev.onclick = () => {
+            if (current > 0) {
+                current--;
+                updateUI();
+            }
+        };
+        range.addEventListener("input", function () {
+            updateUI(Number(this.value));
+        });
 
-// =====================
-// CASE
-// =====================
-
-document.querySelectorAll(".case-option").forEach(item => {
-
-   item.addEventListener("click", function () {
-
-      document.querySelectorAll(".case-option").forEach(el => {
-         el.closest(".salect").classList.remove("active");
-      });
-
-      this.closest(".salect").classList.add("active");
-
-      imgCase.src = this.dataset.image;
-
-      description.innerHTML = this.querySelector("p").innerHTML;
-
-   });
-
-});
-
-
-// =====================
-// DIAL
-// =====================
-
-document.querySelectorAll(".dial-option").forEach(item => {
-
-   item.addEventListener("click", function () {
-
-      document.querySelectorAll(".dial-option").forEach(el => {
-         el.closest(".salect").classList.remove("active");
-      });
-
-      this.closest(".salect").classList.add("active");
-
-      imgDial.src = this.dataset.image;
-
-      description.innerHTML = this.querySelector("p").innerHTML;
-
-   });
-
-});
-
-
-// =====================
-// BAND
-// =====================
-
-document.querySelectorAll(".band-option").forEach(item => {
-
-   item.addEventListener("click", function () {
-
-      document.querySelectorAll(".band-option").forEach(el => {
-         el.closest(".salect").classList.remove("active");
-      });
-
-      this.closest(".salect").classList.add("active");
-
-      imgStrap.src = this.dataset.image;
-
-      description.innerHTML = this.querySelector("p").innerHTML;
-
-   });
-
-});
+        updateUI(0);
 
 
     }, [])
-    
+
     return (
         <section className="customizer_sec" ref={sectionRef}>
             <div className="container-fluid">
                 <div className="row align-items-center">
+
                     <div className="col-xs-12 col-sm-7 col-md-7 col-lg-7" ref={imgContainerRef}>
-                        <div className="big_img" id="">
-                            <img id="imgStrap" src="/images/customizer/watch-strap-variant-1.png" style={{zIndex: 1}} alt="strap" />
-                            <img id="imgCase" src="/images/customizer/watch-variant-1.png" style={{zIndex: 2}} alt="case" />
-                            <img id="imgDial" src="/images/customizer/watch-dial-variant-1.png" style={{zIndex: 3}} alt="dial" />
+                        <div className="big_img">
+                            <Image id="imgStrap" width={524} height={574} src={findImage(strapOptions, selection.strapId)} style={{ zIndex: 1 }} alt="Picture of the author" />
+                            <Image id="imgCase"
+                                width={524}
+                                height={574}
+                                src={findImage(caseOptions, selection.caseId)}
+                                style={{ zIndex: 2 }}
+                                alt="Picture of the author" />
+                            <Image id="imgDial" width={524} height={574} src={findImage(dialOptions, selection.dialId)} style={{ zIndex: 3 }} alt="Picture of the author" />
+
+
                         </div>
                     </div>
                     <div className="col-xs-12 col-sm-5 col-md-5 col-lg-5">
@@ -274,70 +238,96 @@ document.querySelectorAll(".band-option").forEach(item => {
                                         <h3 id="stepHeading" className="customizer-heading">1. Choose Your Case</h3>
                                         <p id="stepDescription">Silver Brushed</p>
                                     </div>
-                                    <input type="range" className="form-range" id="stepRange" min="0" max="2" step="1" value="0"/>
+                                    {/* <input type="range" className="form-range" id="stepRange" min="0" max="2" step="1" value="0" /> */}
+                                    <input
+                                        type="range"
+                                        className="form-range"
+                                        id="stepRange"
+                                        min="0"
+                                        max="2"
+                                        step="1"
+                                        defaultValue={0}
+                                    />
+
                                 </div>
                                 {/* <!-- Tab Content --> */}
                                 <div className="tab-content">
-                                     {/* <!-- case --> */}
-                                    <div className="tab-pane fade show active" style={{transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out'}}>
+                                    {/* <!-- case --> */}
+                                    <div className="tab-pane fade show active" style={{ transition: 'opacity 0.3s ease-in-out, transform 0.3s ease-in-out' }}>
                                         <div className="salect_main">
-                                            <div className="salect select_1">
-                                                <a href="javascript:void(0)" className="case-option" data-image="/images/customizer/watch-variant-1.png">
-                                                    <img src="/images/customizer/watch-variant-1.png" className="img-fluid" alt=""/>
-                                                        <p>Silver</p>
-                                                </a>
-                                            </div>
-                                            <div className="salect select_1">
-                                                <a href="javascript:void(0)" className="case-option" data-image="/images/customizer/watch-variant-2.png">
-                                                    <img src="/images/customizer/watch-variant-2.png" className="img-fluid" alt=""/>
-                                                        <p>Black</p>
-                                                </a>
-                                            </div>
+
+
+                                            {caseOptions.map((caseItem) => (
+                                                <div className={`salect select_1${selection.caseId === caseItem.id ? ' active' : ''}`} key={caseItem.id}>
+                                                    <a
+                                                        href="#"
+                                                        className="case-option"
+                                                        data-image={caseItem.image}
+                                                        onClick={selectOption('caseId', caseItem)}
+                                                    >
+                                                        <Image
+                                                            width={160}
+                                                            height={150}
+                                                            src={caseItem.image}
+                                                            className="img-fluid"
+                                                            alt={caseItem.name}
+                                                        />
+
+                                                        <p>{caseItem.name}</p>
+                                                    </a>
+                                                </div>
+                                            ))}
+
                                         </div>
                                     </div>
                                     <div className="tab-pane fade">
                                         <div className="salect_main">
-                                            <div className="salect select_1">
-                                                <a href="javascript:void(0)" className="dial-option" data-image="/images/customizer/watch-dial-variant-1.png">
-                                                    <img src="/images/customizer/watch-dial-variant-1.png" className="img-fluid" alt=""/>
-                                                        <p>Black</p>
-                                                </a>
-                                            </div>
-                                            <div className="salect select_1">
-                                                <a href="javascript:void(0)" className="dial-option" data-image="/images/customizer/watch-dial-variant-2.png">
-                                                    <img src="/images/customizer/watch-dial-variant-2.png" className="img-fluid" alt=""/>
-                                                        <p>Brown</p>
-                                                </a>
-                                            </div>
-                                            <div className="salect select_1">
-                                                <a href="javascript:void(0)" className="dial-option" data-image="/images/customizer/watch-dial-variant-3.png">
-                                                    <img src="/images/customizer/watch-dial-variant-3.png" className="img-fluid" alt=""/>
-                                                        <p>Blue</p>
-                                                </a>
-                                            </div>
+                                            {dialOptions.map((dial) => (
+                                                <div className={`salect select_1${selection.dialId === dial.id ? ' active' : ''}`} key={dial.id}>
+                                                    <a
+                                                        href="#"
+                                                        className="dial-option"
+                                                        data-image={dial.image}
+                                                        onClick={selectOption('dialId', dial)}
+                                                    >
+                                                        <Image
+                                                            width={160}
+                                                            height={150}
+                                                            src={dial.image}
+                                                            className="img-fluid"
+                                                            alt={dial.name}
+                                                        />
+
+                                                        <p>{dial.name}</p>
+                                                    </a>
+                                                </div>
+                                            ))}
                                         </div>
                                     </div>
                                     {/* <!-- band --> */}
                                     <div className="tab-pane fade">
                                         <div className="salect_main">
-                                            <div className="salect select_1">
-                                                <a href="javascript:void(0)" className="band-option" data-image="/images/customizer/watch-strap-variant-1.png">
-                                                    <img src="/images/customizer/watch-strap-variant-1.png" className="img-fluid" alt=""/>
-                                                        <p>Black</p>
-                                                </a>
-                                            </div>
-                                            <div className="salect select_1">
-                                                <a href="javascript:void(0)" className="band-option" data-image="/images/customizer/watch-strap-variant-2.png">
-                                                    <img src="/images/customizer/watch-strap-variant-2.png" className="img-fluid" alt=""/>
-                                                        <p>Brown</p>
-                                                </a>
-                                            </div>
-                                            <div className="salect select_1">
-                                                <a href="javascript:void(0)" className="band-option" data-image="/images/customizer/watch-strap-variant-3.png">
-                                                    <img src="/images/customizer/watch-strap-variant-3.png" className="img-fluid" alt=""/>
-                                                        <p>Blue</p>
-                                                </a>
-                                            </div>
+
+                                            {strapOptions.map((strap) => (
+                                                <div className={`salect select_1${selection.strapId === strap.id ? ' active' : ''}`} key={strap.id}>
+                                                    <a
+                                                        href="#"
+                                                        className="band-option"
+                                                        data-image={strap.image}
+                                                        onClick={selectOption('strapId', strap)}
+                                                    >
+                                                        <Image
+                                                            src={strap.image}
+                                                            width={160}
+                                                            height={150}
+                                                            className="img-fluid"
+                                                            alt={strap.name}
+                                                        />
+                                                        <p>{strap.name}</p>
+                                                    </a>
+                                                </div>
+                                            ))}
+
                                         </div>
                                     </div>
                                 </div>
@@ -346,14 +336,20 @@ document.querySelectorAll(".band-option").forEach(item => {
                                     <a href="javascript:void(0)" id="nextBtn">Next</a>
                                 </div>
                                 <div className="addtocart">
-                                    <Link href="/cart" >Add To Cart</Link>
+                                    <button
+                                        type="button"
+                                        data-opens-cart
+                                        onClick={() => addToCart({ kind: 'custom', productId: 'custom-watch', options: selection })}
+                                    >
+                                        Add To Cart
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </section >
     )
 }
 

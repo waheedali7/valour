@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* Poppins is loaded once for the whole site in src/app/layout.js. */
 
 html,
 body {
@@ -173,6 +173,12 @@ body {
     position: relative;
     overflow: hidden;
     text-decoration: none;
+}
+
+/* Add to Cart is a <button>: undo native button text styles so it matches the old link */
+.add-to-cart-btn {
+    letter-spacing: inherit;
+    text-align: inherit;
 }
 
 .add-to-cart-btn:hover {

@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: valour_mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: watchwebsite
+      MYSQL_USER: watch_web_user
+      MYSQL_PASSWORD: ${DB_APP_PASSWORD}
+    ports:
+      - "3307:3306"
+    volumes:
+      - valour_db_data:/var/lib/mysql
+
+volumes:
+  valour_db_data:

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import AutoPlayVideo from './AutoPlayVideo'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import CustomEase from 'gsap/CustomEase'
@@ -73,14 +74,7 @@ export default function CreativeVideoSection() {
       <div className="scroll-container">
         <div className="video-wrapper">
           <div className="video-box">
-            <video
-              className="main-video"
-              src="/videos/scroll-video.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-            />
+            <AutoPlayVideo className="main-video" src="/videos/scroll-video.mp4" />
           </div>
         </div>
       </div>

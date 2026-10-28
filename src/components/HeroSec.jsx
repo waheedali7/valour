@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import AutoPlayVideo from './AutoPlayVideo'
 import gsap from 'gsap'
 import ScrollTrigger from 'gsap/ScrollTrigger'
 
@@ -176,14 +177,7 @@ export default function HeroSec() {
 
   return (
     <section className='hero-sec hero-canvas-sec' ref={sectionRef}>
-      <video 
-        className='hero-video-bg' 
-        autoPlay 
-        loop 
-        muted 
-        playsInline
-        src="/videos/hero-bg-video.mp4"
-      />
+      <AutoPlayVideo className='hero-video-bg' src="/videos/hero-bg-video.mp4" />
 
       <div className='hero-vignette' />
 

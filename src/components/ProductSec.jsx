@@ -9,13 +9,14 @@ import { Autoplay, Pagination } from 'swiper/modules'
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Link from 'next/link'
-import { useSelector } from 'react-redux'
+import { getProductHref } from '@/app/features/product/productUrl'
 
 
 gsap.registerPlugin(ScrollTrigger)
 
-const ProductSec = () => {
-  const products = useSelector((state) => state.product.value)
+// watches: published database watches plus the static catalog watches (from the page).
+const ProductSec = ({ watches = [] }) => {
+  const products = watches
 
   const sectionRef = useRef(null)
   const perspRef = useRef(null)
@@ -127,7 +128,8 @@ const ProductSec = () => {
             modules={[Autoplay, Pagination]}
             spaceBetween={20}
             slidesPerView={1}
-            loop={true}
+            // Swiper needs more slides than are visible (up to 4) to loop.
+            loop={products.length > 4}
             autoplay={{
               delay: 2000,
               disableOnInteraction: true,
@@ -161,8 +163,9 @@ const ProductSec = () => {
             }}
           >
             {products.map((watch, index) => (
-              <SwiperSlide>
-                <Link href="/p-details" className='cards-link'>
+              <SwiperSlide key={watch.key ?? watch.id}>
+
+                <Link href={getProductHref(watch)} className='cards-link'>
                   {/* <div className="pro-card">
                     <img src={item.image} alt="watch" />
                     <div className="details">
@@ -178,8 +181,8 @@ const ProductSec = () => {
                     data-id={watch.id}
                     className={`ht-card ${watch.color}`}
                     style={{ animationDelay: `${index * 80}ms` }}
-                    // onClick={() => handleCart(watch)}
-                    // onClick={() => router.push("/p-details")}
+                  // onClick={() => handleCart(watch)}
+                  // onClick={() => router.push("/our-shop")}
                   >
                     <div className="ht-card-inner">
                       <div className="ht-card-glow" />
@@ -229,7 +232,7 @@ const ProductSec = () => {
                         <div className="ht-card-specs">
                           <span>{watch.material}</span>
                           <div className="dot" />
-                          <span>{watch.type}</span>
+                          <span>{watch.movement}</span>
                         </div>
                       </div>
                     </div>
